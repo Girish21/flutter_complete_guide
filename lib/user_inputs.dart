@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 
-class UserInputs extends StatefulWidget {
-  @override
-  _UserInputsState createState() => _UserInputsState();
-}
-
-class _UserInputsState extends State<UserInputs> {
-  @override
+class UserInputs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -25,6 +19,15 @@ class _UserInputsState extends State<UserInputs> {
                   labelText: 'Amount',
                 ),
               ),
+              Container(
+                alignment: Alignment.centerRight,
+                child: FlatButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Add Transaction',
+                  ),
+                ),
+              )
             ],
           ),
         ),
