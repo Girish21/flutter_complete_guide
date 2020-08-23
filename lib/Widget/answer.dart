@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:strings/strings.dart';
 
 class Answer extends StatelessWidget {
-  Answer({Key key, this.answer, this.nextQuestion}) : super(key: key);
+  Answer({Key key, @required this.answer, @required this.nextQuestion})
+      : super(key: key);
 
   final String answer;
   final Function nextQuestion;

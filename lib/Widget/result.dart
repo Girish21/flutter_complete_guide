@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:strings/strings.dart';
 
 class Result extends StatelessWidget {
-  Result({Key key, this.resetQuiz}) : super(key: key);
+  Result({Key key, @required this.resetQuiz}) : super(key: key);
 
   final Function resetQuiz;
 

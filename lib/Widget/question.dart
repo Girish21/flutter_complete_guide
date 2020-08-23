@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/Widget/answer.dart';
 
 class Question extends StatelessWidget {
-  Question({Key key, this.questions, this.currentQuestion, this.nextQuestion})
+  Question(
+      {Key key,
+      @required this.questions,
+      @required this.currentQuestion,
+      @required this.nextQuestion})
       : super(key: key);
 
   final List<Map<String, Object>> questions;
