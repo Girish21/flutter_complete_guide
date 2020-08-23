@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Expenses'),
         ),
-        body: Home(),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Home(),
+        ),
       ),
     );
   }
