@@ -9,7 +9,7 @@ class MySimpleQuiz extends StatefulWidget {
 }
 
 class _MySimpleQuizState extends State<MySimpleQuiz> {
-  final _questions = [
+  final _questions = const [
     {
       "question": "What's your favorite color?",
       "answers": ['red', 'blue', 'black']
@@ -28,7 +28,7 @@ class _MySimpleQuizState extends State<MySimpleQuiz> {
 
   void _nextQuestion() {
     setState(() {
-      if (_currentQuestion == 1)
+      if (_currentQuestion == _questions.length - 1)
         _currentQuestion = 0;
       else
         _currentQuestion++;
