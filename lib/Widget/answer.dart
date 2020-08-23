@@ -10,6 +10,8 @@ class Answer extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       child: Text(answer),
+      color: Colors.blue,
+      textColor: Colors.white,
       onPressed: () {
         print(answer);
         nextQuestion();
