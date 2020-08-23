@@ -12,7 +12,7 @@ class ExpenseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Card(
       child: Container(
-        height: 50,
+        height: 84,
         child: Row(
           children: [
             SizedBox(
@@ -27,8 +27,12 @@ class ExpenseCard extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              width: 16,
+            ),
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
