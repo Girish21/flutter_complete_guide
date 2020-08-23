@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
                   itemCount: _transactions.length,
                   itemBuilder: (BuildContext context, int index) => ExpenseCard(
                     amount: _transactions[index].spent.toString(),
-                    date: _transactions[index].date.toString(),
+                    date: _transactions[index].date,
                     title: _transactions[index].title.toString(),
                   ),
                 ),
