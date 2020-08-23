@@ -14,10 +14,7 @@ class Answer extends StatelessWidget {
       child: Text(capitalize(answer['text'])),
       color: Colors.blue,
       textColor: Colors.white,
-      onPressed: () {
-        print(answer);
-        nextQuestion(answer['score']);
-      },
+      onPressed: () => nextQuestion(answer['score']),
     );
   }
 }
