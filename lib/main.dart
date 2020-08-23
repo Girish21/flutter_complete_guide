@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,11 +10,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Flutter'),
+          title: Text('Expenses'),
         ),
-        body: Center(
-          child: Text('Flutter'),
-        ),
+        body: Home(),
       ),
     );
   }
