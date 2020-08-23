@@ -10,7 +10,7 @@ class ExpenseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (Card(
+    return Card(
       child: Container(
         height: 84,
         child: Row(
@@ -54,6 +54,6 @@ class ExpenseCard extends StatelessWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 }
