@@ -6,12 +6,14 @@ void main() {
 
 class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Assignment 1'),
-      ),
-      body: Center(
-        child: Text('assignment init'),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Assignment 1'),
+        ),
+        body: Center(
+          child: Text('assignment init'),
+        ),
       ),
     );
   }
