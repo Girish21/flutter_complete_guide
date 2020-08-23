@@ -27,17 +27,15 @@ class _MySimpleQuizState extends State<MySimpleQuiz> {
 
   @override
   Widget build(BuildContext ctx) {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Question(
-            currentQuestion: _currentQuestion,
-            nextQuestion: _nextQuestion,
-            questions: _questions,
-          )
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Question(
+          currentQuestion: _currentQuestion,
+          nextQuestion: _nextQuestion,
+          questions: _questions,
+        )
+      ],
     );
   }
 }

@@ -12,10 +12,14 @@ class Question extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 64) ,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(questions[currentQuestion]),
+          Text(
+            questions[currentQuestion],
+            style: TextStyle(fontSize: 18),
+          ),
           ...['Answer 1', 'Answer 2']
               .map(
                 (ans) => Answer(
