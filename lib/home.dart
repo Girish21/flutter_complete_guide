@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/expense_card.dart';
 import 'package:flutter_complete_guide/transaction.dart';
 import 'package:uuid/uuid.dart';
 
@@ -52,39 +53,10 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
                   itemCount: _transactions.length,
-                  itemBuilder: (BuildContext context, int index) => Card(
-                    child: Container(
-                      height: 50,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 8,
-                          ),
-                          CircleAvatar(
-                            maxRadius: 22,
-                            child: Text(
-                              '\$' + _transactions[index].spent.toString(),
-                              style: TextStyle(
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  _transactions[index].title,
-                                ),
-                                Text(
-                                  _transactions[index].date.toString(),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                  itemBuilder: (BuildContext context, int index) => ExpenseCard(
+                    amount: _transactions[index].spent.toString(),
+                    date: _transactions[index].date.toString(),
+                    title: _transactions[index].title.toString(),
                   ),
                 ),
               ),
