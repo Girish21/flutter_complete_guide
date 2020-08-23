@@ -28,7 +28,7 @@ class _MySimpleQuizState extends State<MySimpleQuiz> {
 
   void _nextQuestion() {
     setState(() {
-      if (_currentQuestion == _questions.length - 1)
+      if (_currentQuestion == _questions.length)
         _currentQuestion = 0;
       else
         _currentQuestion++;
@@ -37,15 +37,15 @@ class _MySimpleQuizState extends State<MySimpleQuiz> {
 
   @override
   Widget build(BuildContext ctx) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Question(
-          currentQuestion: _currentQuestion,
-          nextQuestion: _nextQuestion,
-          questions: _questions,
-        )
-      ],
+    return Container(
+      width: double.infinity,
+      child: _currentQuestion == _questions.length
+          ? Text('You have reached the end')
+          : Question(
+              currentQuestion: _currentQuestion,
+              nextQuestion: _nextQuestion,
+              questions: _questions,
+            ),
     );
   }
 }
