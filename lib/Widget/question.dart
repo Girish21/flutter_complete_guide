@@ -26,8 +26,8 @@ class Question extends StatelessWidget {
           ),
           ...(questions[currentQuestion]['answers'] as List)
               .map(
-                (ans) => Answer(
-                  answer: ans,
+                (answer) => Answer(
+                  answer: answer,
                   nextQuestion: nextQuestion,
                 ),
               )

@@ -13,22 +13,36 @@ class _MySimpleQuizState extends State<MySimpleQuiz> {
   final _questions = const [
     {
       "question": "What's your favorite color?",
-      "answers": ['red', 'blue', 'black']
+      "answers": [
+        {'text': 'red', 'score': 5},
+        {'text': 'blue', 'score': 1},
+        {'text': 'black', 'score': 10}
+      ]
     },
     {
       "question": "What's your favorite animal?",
-      "answers": ['dog', 'cat', 'lion']
+      "answers": [
+        {'text': 'dog', 'score': 1},
+        {'text': 'cat', 'score': 1},
+        {'text': 'lion', 'score': 6},
+        {'text': 'snake', 'score': 10}
+      ]
     },
     {
       "question": "Who's your favorite instructor?",
-      "answers": ['max', 'max']
+      "answers": [
+        {'text': 'max', 'score': 1},
+        {'text': 'max', 'score': 1}
+      ]
     }
   ];
 
   var _currentQuestion = 0;
+  var _score = 0;
 
-  void _nextQuestion() {
+  void _nextQuestion(score) {
     setState(() {
+      _score += score;
       if (_currentQuestion == _questions.length)
         _currentQuestion = 0;
       else
@@ -39,6 +53,7 @@ class _MySimpleQuizState extends State<MySimpleQuiz> {
   void _resetQuiz() {
     setState(() {
       _currentQuestion = 0;
+      _score = 0;
     });
   }
 
@@ -48,6 +63,7 @@ class _MySimpleQuizState extends State<MySimpleQuiz> {
       width: double.infinity,
       child: _currentQuestion == _questions.length
           ? Result(
+              score: _score,
               resetQuiz: _resetQuiz,
             )
           : Question(
