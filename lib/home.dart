@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/expense_card.dart';
 import 'package:flutter_complete_guide/transaction.dart';
+import 'package:flutter_complete_guide/user_inputs.dart';
 import 'package:uuid/uuid.dart';
 
 var uuid = Uuid();
@@ -46,6 +47,7 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          UserInputs(),
           Expanded(
             child: Container(
               width: double.infinity,
