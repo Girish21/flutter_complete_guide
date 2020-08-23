@@ -45,14 +45,47 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          Container(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Text(
-                  'list of txns',
-                  textAlign: TextAlign.center,
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  itemCount: _transactions.length,
+                  itemBuilder: (BuildContext context, int index) => Card(
+                    child: Container(
+                      height: 50,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 8,
+                          ),
+                          CircleAvatar(
+                            maxRadius: 22,
+                            child: Text(
+                              '\$' + _transactions[index].spent.toString(),
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  _transactions[index].title,
+                                ),
+                                Text(
+                                  _transactions[index].date.toString(),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
