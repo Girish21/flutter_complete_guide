@@ -10,8 +10,18 @@ class MySimpleQuiz extends StatefulWidget {
 
 class _MySimpleQuizState extends State<MySimpleQuiz> {
   final _questions = [
-    'What\'s your favorite color?',
-    'What\'s your favorite animal?'
+    {
+      "question": "What's your favorite color?",
+      "answers": ['red', 'blue', 'black']
+    },
+    {
+      "question": "What's your favorite animal?",
+      "answers": ['dog', 'cat', 'lion']
+    },
+    {
+      "question": "Who's your favorite instructor?",
+      "answers": ['max', 'max']
+    }
   ];
 
   var _currentQuestion = 0;
