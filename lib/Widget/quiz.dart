@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/Widget/question.dart';
+import 'package:flutter_complete_guide/Widget/result.dart';
 
 class MySimpleQuiz extends StatefulWidget {
   MySimpleQuiz({Key key}) : super(key: key);
@@ -35,12 +36,20 @@ class _MySimpleQuizState extends State<MySimpleQuiz> {
     });
   }
 
+  void _resetQuiz() {
+    setState(() {
+      _currentQuestion = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext ctx) {
     return Container(
       width: double.infinity,
       child: _currentQuestion == _questions.length
-          ? Text('You have reached the end')
+          ? Result(
+              resetQuiz: _resetQuiz,
+            )
           : Question(
               currentQuestion: _currentQuestion,
               nextQuestion: _nextQuestion,
