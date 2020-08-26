@@ -8,7 +8,7 @@ abstract class TimerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-abstract class TimerStarted extends TimerEvent {
+class TimerStarted extends TimerEvent {
   final int duraiton;
 
   const TimerStarted({@required this.duraiton});
