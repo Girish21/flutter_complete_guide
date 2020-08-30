@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/home.dart';
+import './widgets/home.dart';
 
 void main() {
   runApp(MyApp());

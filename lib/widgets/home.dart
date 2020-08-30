@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/expense_card.dart';
-import 'package:flutter_complete_guide/transaction.dart';
-import 'package:flutter_complete_guide/user_inputs.dart';
 import 'package:uuid/uuid.dart';
+
+import './expense_card.dart';
+import './user_inputs.dart';
+import '../model/transaction.dart';
 
 var uuid = Uuid();
 
