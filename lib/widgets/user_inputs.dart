@@ -3,10 +3,25 @@ import 'package:flutter/material.dart';
 class UserInputs extends StatelessWidget {
   final Function addTransaction;
 
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+
+  final _titleFocusNode = FocusNode();
+  final _amountFocusNode = FocusNode();
 
   UserInputs({@required this.addTransaction});
+
+  void submit() {
+    addTransaction(
+      title: _titleController.text,
+      amount: _amountController.text,
+    );
+  }
+
+  void _getFocusNode(BuildContext context, FocusNode current, FocusNode next) {
+    current.unfocus();
+    FocusScope.of(context).requestFocus(next);
+  }
 
   Widget build(BuildContext context) {
     return Padding(
@@ -20,23 +35,29 @@ class UserInputs extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Title',
                 ),
-                controller: titleController,
+                controller: _titleController,
+                focusNode: _titleFocusNode,
+                textInputAction: TextInputAction.next,
+                onSubmitted: (_) => _getFocusNode(
+                  context,
+                  _titleFocusNode,
+                  _amountFocusNode,
+                ),
               ),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Amount',
                 ),
-                controller: amountController,
+                controller: _amountController,
+                focusNode: _amountFocusNode,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.done,
+                onSubmitted: (_) => submit(),
               ),
               Container(
                 alignment: Alignment.centerRight,
                 child: FlatButton(
-                  onPressed: () {
-                    addTransaction(
-                      title: titleController.text,
-                      amount: amountController.text,
-                    );
-                  },
+                  onPressed: () => submit(),
                   child: Text(
                     'Add Transaction',
                   ),
