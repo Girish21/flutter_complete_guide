@@ -15,11 +15,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Expenses',
       theme: ThemeData(
+        fontFamily: 'Montserrat',
         primarySwatch: Colors.green,
         accentColor: Colors.red,
         accentColorBrightness: Brightness.dark,
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: Colors.red,
+        ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 20,
+                ),
+              ),
         ),
       ),
       home: Homepage(),
