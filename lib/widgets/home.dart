@@ -46,42 +46,48 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Text(
-                  'header charts',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
-          UserInputs(
-            addTransaction: addTransaction,
-          ),
-          Expanded(
-            child: Container(
+    return SingleChildScrollView(
+      child: Container(
+        width: double.infinity,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  itemCount: _transactions.length,
-                  itemBuilder: (BuildContext context, int index) => ExpenseCard(
-                    amount: _transactions[index].spent.toString(),
-                    date: _transactions[index].date,
-                    title: _transactions[index].title.toString(),
+                child: Card(
+                  child: Text(
+                    'header charts',
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            UserInputs(
+              addTransaction: addTransaction,
+            ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Container(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _transactions.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        ExpenseCard(
+                      amount: _transactions[index].spent.toString(),
+                      date: _transactions[index].date,
+                      title: _transactions[index].title.toString(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
