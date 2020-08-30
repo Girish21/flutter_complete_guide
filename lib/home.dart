@@ -29,27 +29,17 @@ class _HomeState extends State<Home> {
     ),
   ];
 
-  var userInput = {'title': '', 'amount': ''};
-
-  void setField({String field, String value}) {
-    setState(() {
-      print({...userInput, field: value});
-      userInput = {...userInput, field: value};
-    });
-  }
-
-  void addTransaction() {
+  void addTransaction({String title, String amount}) {
     setState(() {
       _transactions = [
         ..._transactions,
         Transaction(
           id: uuid.v4(),
-          title: userInput['title'],
-          spent: double.parse(userInput['amount']),
+          title: title,
+          spent: double.parse(amount),
           date: DateTime.now(),
         ),
       ];
-      userInput = {'title': '', 'amount': ''};
     });
   }
 
@@ -72,7 +62,6 @@ class _HomeState extends State<Home> {
             ),
           ),
           UserInputs(
-            onChange: setField,
             addTransaction: addTransaction,
           ),
           Expanded(

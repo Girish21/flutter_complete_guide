@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 class UserInputs extends StatelessWidget {
-  final Function onChange;
   final Function addTransaction;
-  const UserInputs({@required this.onChange, @required this.addTransaction});
+
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
+  UserInputs({@required this.addTransaction});
 
   Widget build(BuildContext context) {
     return Padding(
@@ -17,18 +20,23 @@ class UserInputs extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Title',
                 ),
-                onChanged: (value) => onChange(field: 'title', value: value),
+                controller: titleController,
               ),
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Amount',
                 ),
-                onChanged: (value) => onChange(field: 'amount', value: value),
+                controller: amountController,
               ),
               Container(
                 alignment: Alignment.centerRight,
                 child: FlatButton(
-                  onPressed: addTransaction,
+                  onPressed: () {
+                    addTransaction(
+                      title: titleController.text,
+                      amount: amountController.text,
+                    );
+                  },
                   child: Text(
                     'Add Transaction',
                   ),
