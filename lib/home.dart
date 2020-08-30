@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _transactions = [
+  var _transactions = [
     Transaction(
       id: uuid.v4(),
       title: 'Shirt',
@@ -28,6 +28,30 @@ class _HomeState extends State<Home> {
       ),
     ),
   ];
+
+  var userInput = {'title': '', 'amount': ''};
+
+  void setField({String field, String value}) {
+    setState(() {
+      print({...userInput, field: value});
+      userInput = {...userInput, field: value};
+    });
+  }
+
+  void addTransaction() {
+    setState(() {
+      _transactions = [
+        ..._transactions,
+        Transaction(
+          id: uuid.v4(),
+          title: userInput['title'],
+          spent: double.parse(userInput['amount']),
+          date: DateTime.now(),
+        ),
+      ];
+      userInput = {'title': '', 'amount': ''};
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +71,10 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          UserInputs(),
+          UserInputs(
+            onChange: setField,
+            addTransaction: addTransaction,
+          ),
           Expanded(
             child: Container(
               width: double.infinity,
