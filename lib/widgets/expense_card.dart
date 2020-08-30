@@ -24,8 +24,10 @@ class ExpenseCard extends StatelessWidget {
                 '\$$amount',
                 style: TextStyle(
                   fontSize: 12,
+                  color: Colors.white
                 ),
               ),
+              backgroundColor: Theme.of(context).accentColor,
             ),
             SizedBox(
               width: 16,

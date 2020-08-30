@@ -13,6 +13,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Expenses',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        accentColor: Colors.red,
+        accentColorBrightness: Brightness.dark,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.red,
+        ),
+      ),
       home: Homepage(),
     );
   }
@@ -71,32 +80,30 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Expenses'),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.add,
-              ),
-              onPressed: () => _showModal(context),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Expenses'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.add,
             ),
-          ],
-        ),
-        body: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-          behavior: HitTestBehavior.opaque,
-          child: Home(
-            addTransaction: _addTransaction,
-            transactions: _transactions,
+            onPressed: () => _showModal(context),
           ),
+        ],
+      ),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        behavior: HitTestBehavior.opaque,
+        child: Home(
+          addTransaction: _addTransaction,
+          transactions: _transactions,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _showModal(context),
-          child: Icon(
-            Icons.add,
-          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showModal(context),
+        child: Icon(
+          Icons.add,
         ),
       ),
     );
