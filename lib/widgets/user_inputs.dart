@@ -12,9 +12,14 @@ class UserInputs extends StatelessWidget {
   UserInputs({@required this.addTransaction});
 
   void submit() {
+    final title = _titleController.text;
+    final amount = _amountController.text;
+
+    if (title.isEmpty || double.parse(amount) < 0) return;
+
     addTransaction(
-      title: _titleController.text,
-      amount: _amountController.text,
+      title: title,
+      amount: amount,
     );
   }
 
@@ -57,7 +62,7 @@ class UserInputs extends StatelessWidget {
               Container(
                 alignment: Alignment.centerRight,
                 child: FlatButton(
-                  onPressed: () => submit(),
+                  onPressed: submit,
                   child: Text(
                     'Add Transaction',
                   ),
