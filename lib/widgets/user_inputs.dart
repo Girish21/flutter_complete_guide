@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
-class UserInputs extends StatelessWidget {
+class UserInputs extends StatefulWidget {
   final Function addTransaction;
 
+  UserInputs({@required this.addTransaction});
+
+  @override
+  _UserInputsState createState() => _UserInputsState();
+}
+
+class _UserInputsState extends State<UserInputs> {
   final _titleController = TextEditingController();
+
   final _amountController = TextEditingController();
 
   final _titleFocusNode = FocusNode();
-  final _amountFocusNode = FocusNode();
 
-  UserInputs({@required this.addTransaction});
+  final _amountFocusNode = FocusNode();
 
   void submit() {
     final title = _titleController.text;
@@ -17,10 +24,12 @@ class UserInputs extends StatelessWidget {
 
     if (title.isEmpty || double.parse(amount) < 0) return;
 
-    addTransaction(
+    widget.addTransaction(
       title: title,
       amount: amount,
     );
+
+    Navigator.of(context).pop();
   }
 
   void _getFocusNode(BuildContext context, FocusNode current, FocusNode next) {

@@ -1,48 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
 import './expense_card.dart';
-import './user_inputs.dart';
 import '../model/transaction.dart';
 
-var uuid = Uuid();
+class Home extends StatelessWidget {
+  final Function addTransaction;
+  final List<Transaction> transactions;
 
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  var _transactions = [
-    Transaction(
-      id: uuid.v4(),
-      title: 'Shirt',
-      spent: 19.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: uuid.v4(),
-      title: 'Watch',
-      spent: 39.99,
-      date: DateTime.now().add(
-        Duration(days: -1),
-      ),
-    ),
-  ];
-
-  void addTransaction({String title, String amount}) {
-    setState(() {
-      _transactions = [
-        ..._transactions,
-        Transaction(
-          id: uuid.v4(),
-          title: title,
-          spent: double.parse(amount),
-          date: DateTime.now(),
-        ),
-      ];
-    });
-  }
+  const Home({@required this.addTransaction, @required this.transactions});
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +29,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            UserInputs(
-              addTransaction: addTransaction,
-            ),
             Flexible(
               fit: FlexFit.loose,
               child: Container(
@@ -75,12 +37,12 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _transactions.length,
+                    itemCount: transactions.length,
                     itemBuilder: (BuildContext context, int index) =>
                         ExpenseCard(
-                      amount: _transactions[index].spent.toStringAsFixed(2),
-                      date: _transactions[index].date,
-                      title: _transactions[index].title.toString(),
+                      amount: transactions[index].spent.toStringAsFixed(2),
+                      date: transactions[index].date,
+                      title: transactions[index].title.toString(),
                     ),
                   ),
                 ),
