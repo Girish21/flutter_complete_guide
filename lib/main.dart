@@ -44,22 +44,7 @@ class Homepage extends StatefulWidget {
 var uuid = Uuid();
 
 class _HomepageState extends State<Homepage> {
-  var _transactions = [
-    Transaction(
-      id: uuid.v4(),
-      title: 'Shirt',
-      spent: 19.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: uuid.v4(),
-      title: 'Watch',
-      spent: 39.99,
-      date: DateTime.now().add(
-        Duration(days: -1),
-      ),
-    ),
-  ];
+  List<Transaction> _transactions = [];
 
   void _addTransaction({String title, String amount}) {
     setState(() {

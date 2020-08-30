@@ -29,25 +29,41 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            Flexible(
-              fit: FlexFit.loose,
-              child: Container(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: transactions.length,
-                    itemBuilder: (BuildContext context, int index) =>
-                        ExpenseCard(
-                      amount: transactions[index].spent.toStringAsFixed(2),
-                      date: transactions[index].date,
-                      title: transactions[index].title.toString(),
+            if (transactions.length > 0)
+              Flexible(
+                fit: FlexFit.loose,
+                child: Container(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: transactions.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          ExpenseCard(
+                        amount: transactions[index].spent.toStringAsFixed(2),
+                        date: transactions[index].date,
+                        title: transactions[index].title.toString(),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
+            if (transactions.length == 0)
+              Column(
+                children: [
+                  Text(
+                    'No Transaction added yet',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  SizedBox(
+                    height: 32,
+                  ),
+                  Image.asset(
+                    'assets/images/waiting.png',
+                  ),
+                ],
+              )
           ],
         ),
       ),
