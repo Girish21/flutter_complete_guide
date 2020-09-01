@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './chart.dart';
 
 import './expense_card.dart';
 import '../model/transaction.dart';
@@ -6,6 +7,20 @@ import '../model/transaction.dart';
 class Home extends StatelessWidget {
   final Function addTransaction;
   final List<Transaction> transactions;
+
+  List<Transaction> get recentTransactions {
+    return transactions
+        .where(
+          (element) => element.date.isAfter(
+            DateTime.now().subtract(
+              Duration(
+                days: 7,
+              ),
+            ),
+          ),
+        )
+        .toList();
+  }
 
   const Home({@required this.addTransaction, @required this.transactions});
 
@@ -17,18 +32,10 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  child: Text(
-                    'header charts',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+            if (transactions.length > 0)
+              Chart(
+                transactions: this.recentTransactions,
               ),
-            ),
             if (transactions.length > 0)
               Flexible(
                 fit: FlexFit.loose,
