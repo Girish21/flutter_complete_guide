@@ -68,9 +68,26 @@ class _UserInputsState extends State<UserInputs> {
                 textInputAction: TextInputAction.done,
                 onSubmitted: (_) => submit(),
               ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 24,
+                ),
+                child: Row(
+                  children: [
+                    Text('No Date Chosen!'),
+                    FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      onPressed: () {},
+                      child: Text('Chose Date'),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 alignment: Alignment.centerRight,
-                child: FlatButton(
+                child: RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  textColor: Theme.of(context).primaryTextTheme.button.color,
                   onPressed: submit,
                   child: Text(
                     'Add Transaction',
