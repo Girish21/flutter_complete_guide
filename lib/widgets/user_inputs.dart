@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class UserInputs extends StatefulWidget {
   final Function addTransaction;
@@ -14,19 +15,22 @@ class _UserInputsState extends State<UserInputs> {
 
   final _amountController = TextEditingController();
 
+  DateTime chosenDate;
+
   final _titleFocusNode = FocusNode();
 
   final _amountFocusNode = FocusNode();
 
-  void submit() {
+  void _submit() {
     final title = _titleController.text;
     final amount = _amountController.text;
 
-    if (title.isEmpty || double.parse(amount) < 0) return;
+    if (title.isEmpty || double.parse(amount) < 0 || chosenDate == null) return;
 
     widget.addTransaction(
       title: title,
       amount: amount,
+      date: chosenDate,
     );
 
     Navigator.of(context).pop();
@@ -35,6 +39,19 @@ class _UserInputsState extends State<UserInputs> {
   void _getFocusNode(BuildContext context, FocusNode current, FocusNode next) {
     current.unfocus();
     FocusScope.of(context).requestFocus(next);
+  }
+
+  void _showDatePicker() async {
+    var date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1970),
+      lastDate: DateTime.now(),
+    );
+
+    setState(() {
+      chosenDate = date;
+    });
   }
 
   Widget build(BuildContext context) {
@@ -66,7 +83,7 @@ class _UserInputsState extends State<UserInputs> {
                 focusNode: _amountFocusNode,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.done,
-                onSubmitted: (_) => submit(),
+                onSubmitted: (_) => _submit(),
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -74,10 +91,14 @@ class _UserInputsState extends State<UserInputs> {
                 ),
                 child: Row(
                   children: [
-                    Text('No Date Chosen!'),
+                    if (chosenDate == null) Text('No Date Chosen!'),
+                    if (chosenDate != null)
+                      Text(
+                        'Chosen date ${DateFormat.yMMMd().format(chosenDate)}',
+                      ),
                     FlatButton(
                       textColor: Theme.of(context).primaryColor,
-                      onPressed: () {},
+                      onPressed: _showDatePicker,
                       child: Text('Chose Date'),
                     ),
                   ],
@@ -88,7 +109,7 @@ class _UserInputsState extends State<UserInputs> {
                 child: RaisedButton(
                   color: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).primaryTextTheme.button.color,
-                  onPressed: submit,
+                  onPressed: _submit,
                   child: Text(
                     'Add Transaction',
                   ),

@@ -46,7 +46,11 @@ var uuid = Uuid();
 class _HomepageState extends State<Homepage> {
   List<Transaction> _transactions = [];
 
-  void _addTransaction({String title, String amount}) {
+  void _addTransaction({
+    @required String title,
+    @required String amount,
+    @required DateTime date,
+  }) {
     setState(() {
       _transactions = [
         ..._transactions,
@@ -54,7 +58,7 @@ class _HomepageState extends State<Homepage> {
           id: uuid.v4(),
           title: title,
           spent: double.parse(amount),
-          date: DateTime.now(),
+          date: date,
         ),
       ];
     });
