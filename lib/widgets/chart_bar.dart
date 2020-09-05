@@ -5,18 +5,19 @@ class ChartBar extends StatelessWidget {
   final double spendingAmount;
   final double spendingPctOfTotal;
 
-  const ChartBar(
-      {Key key,
-      @required this.day,
-      @required this.spendingAmount,
-      @required this.spendingPctOfTotal})
-      : super(key: key);
+  const ChartBar({
+    Key key,
+    @required this.day,
+    @required this.spendingAmount,
+    @required this.spendingPctOfTotal,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
       fit: FlexFit.tight,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FittedBox(
             fit: BoxFit.contain,
