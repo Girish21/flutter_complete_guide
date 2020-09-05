@@ -64,6 +64,16 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  void _deleteTransaction({
+    @required String id,
+  }) {
+    setState(() {
+      _transactions =
+          _transactions.where((element) => element.id != id).toList() ??
+              List<Transaction>();
+    });
+  }
+
   void _showModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -96,6 +106,7 @@ class _HomepageState extends State<Homepage> {
         child: Home(
           addTransaction: _addTransaction,
           transactions: _transactions,
+          deleteTransaction: _deleteTransaction,
         ),
       ),
       floatingActionButton: FloatingActionButton(

@@ -5,9 +5,18 @@ import 'package:strings/strings.dart';
 class ExpenseCard extends StatelessWidget {
   final String amount;
   final String title;
+  final String id;
   final DateTime date;
+  final Function deleteTransaction;
 
-  ExpenseCard({Key key, this.amount, this.title, this.date}) : super(key: key);
+  ExpenseCard({
+    Key key,
+    @required this.amount,
+    @required this.title,
+    @required this.date,
+    @required this.id,
+    @required this.deleteTransaction,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +45,13 @@ class ExpenseCard extends StatelessWidget {
             color: Colors.black45,
             fontWeight: FontWeight.w400,
           ),
+        ),
+        trailing: IconButton(
+          icon: Icon(
+            Icons.delete,
+            color: Theme.of(context).errorColor,
+          ),
+          onPressed: () => deleteTransaction(id: id),
         ),
       ),
     );

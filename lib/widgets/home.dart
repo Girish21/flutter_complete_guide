@@ -6,6 +6,7 @@ import '../model/transaction.dart';
 
 class Home extends StatelessWidget {
   final Function addTransaction;
+  final Function deleteTransaction;
   final List<Transaction> transactions;
 
   List<Transaction> get recentTransactions {
@@ -22,7 +23,11 @@ class Home extends StatelessWidget {
         .toList();
   }
 
-  const Home({@required this.addTransaction, @required this.transactions});
+  const Home({
+    @required this.addTransaction,
+    @required this.transactions,
+    @required this.deleteTransaction,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +56,8 @@ class Home extends StatelessWidget {
                         amount: transactions[index].spent.toStringAsFixed(2),
                         date: transactions[index].date,
                         title: transactions[index].title.toString(),
+                        deleteTransaction: deleteTransaction,
+                        id: transactions[index].id,
                       ),
                     ),
                   ),
