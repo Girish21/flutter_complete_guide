@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/category_tile.dart';
+
+import './category_tile.dart';
 import './dummy_data.dart';
 
 class Categories extends StatelessWidget {
