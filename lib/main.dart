@@ -21,11 +21,6 @@ class MyApp extends StatelessWidget {
 class HomeComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('DeliMeals'),
-      ),
-      body: Categories(),
-    );
+    return Categories();
   }
 }
