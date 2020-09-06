@@ -6,11 +6,13 @@ import './models/category_meals_arguments.dart';
 class CategoryTile extends StatelessWidget {
   final String title;
   final Color color;
+  final String id;
 
   const CategoryTile({
     Key key,
     @required this.title,
     @required this.color,
+    @required this.id,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,8 @@ class CategoryTile extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed(
         CategoryMeals.CategoryMealsRoute,
         arguments: CategoryMealsArgument(
-          title,
+          category: title,
+          id: id,
         ),
       ),
       child: Container(

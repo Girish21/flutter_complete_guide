@@ -30,6 +30,7 @@ class Categories extends StatelessWidget {
         itemBuilder: (context, index) => CategoryTile(
           color: DUMMY_CATEGORIES[index].color,
           title: DUMMY_CATEGORIES[index].title,
+          id: DUMMY_CATEGORIES[index].id,
         ),
       ),
     );
