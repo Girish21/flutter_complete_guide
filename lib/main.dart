@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import './categories_screen.dart';
+import './category_meals_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,7 +11,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DeliMeals',
-      home: HomeComponent(),
       theme: ThemeData(
         primarySwatch: Colors.teal,
         accentColor: Colors.brown,
@@ -43,13 +44,10 @@ class MyApp extends StatelessWidget {
               ),
             ),
       ),
+      routes: {
+        '/': (ctx) => Categories(),
+        CategoryMeals.CategoryMealsRoute: (ctx) => CategoryMeals(),
+      },
     );
-  }
-}
-
-class HomeComponent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Categories();
   }
 }
