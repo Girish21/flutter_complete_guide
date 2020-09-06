@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum Affordability {
   Affordable,
   Pricey,
@@ -26,18 +28,18 @@ class Meal {
   final bool isLactoseFree;
 
   const Meal({
-    this.id,
-    this.categories,
-    this.title,
-    this.imageUrl,
-    this.affordability,
-    this.complexity,
-    this.duration,
-    this.ingredients,
-    this.steps,
-    this.isGlutenFree,
-    this.isVegan,
-    this.isVegetarian,
-    this.isLactoseFree,
+    @required this.id,
+    @required this.categories,
+    @required this.title,
+    @required this.imageUrl,
+    @required this.affordability,
+    @required this.complexity,
+    @required this.duration,
+    @required this.ingredients,
+    @required this.steps,
+    @required this.isGlutenFree,
+    @required this.isVegan,
+    @required this.isVegetarian,
+    @required this.isLactoseFree,
   });
 }

@@ -1,6 +1,11 @@
+import 'package:flutter/material.dart';
+
 class CategoryMealsArgument {
   final String category;
   final String id;
 
-  CategoryMealsArgument({this.category, this.id});
+  CategoryMealsArgument({
+    @required this.category,
+    @required this.id,
+  });
 }
