@@ -44,7 +44,7 @@ class MealTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => clickHandler(),
+      onTap: () => clickHandler(context, id),
       splashColor: Theme.of(context).primaryColorDark,
       child: Card(
         shape: RoundedRectangleBorder(

@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../dummy_data.dart';
 import '../models/category_meals_arguments.dart';
+import '../models/meal_detail_argument.dart';
+import '../screens/meals_detail_screen.dart';
 import '../widgets/meal_tile.dart';
 
 class CategoryMeals extends StatelessWidget {
   static const CategoryMealsRoute = '/recipes';
 
-  void clickHandler() {}
+  void clickHandler(context, id) {
+    Navigator.of(context).pushNamed(
+      MealDetail.MealDetailRoute,
+      arguments: MealDetailArgument(
+        id: id,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
