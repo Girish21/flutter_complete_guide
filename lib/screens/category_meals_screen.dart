@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/dummy_data.dart';
-import './models/category_meals_arguments.dart';
+
+import '../dummy_data.dart';
+import '../models/category_meals_arguments.dart';
 
 class CategoryMeals extends StatelessWidget {
   static const CategoryMealsRoute = '/recipes';
