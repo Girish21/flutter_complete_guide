@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/screens/tabs_screen.dart';
 
-import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
 import './screens/meals_detail_screen.dart';
 
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'DeliMeals',
       theme: ThemeData(
         primarySwatch: Colors.teal,
-        accentColor: Colors.brown,
+        accentColor: Colors.amber,
         canvasColor: Color.fromRGBO(
           255,
           254,
