@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/screens/favorites_screen.dart';
 
 import './categories_screen.dart';
+import './favorites_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -9,42 +9,72 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
+  PageController _controller;
+  int _selecteedPageIndex = 0;
+  final List<String> _pageTitles = ['Categories', 'Your Favorites'];
+
+  void initState() {
+    super.initState();
+    _controller = new PageController(
+      initialPage: _selecteedPageIndex,
+    );
+  }
+
+  void _selectPage(int index) {
+    _controller.animateToPage(
+      index,
+      duration: const Duration(
+        milliseconds: 500,
+      ),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Tabs',
-          ),
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                child: Text(
-                  'Categories',
-                ),
-                icon: Icon(
-                  Icons.category,
-                ),
-              ),
-              Tab(
-                child: Text(
-                  'Favorites',
-                ),
-                icon: Icon(
-                  Icons.star,
-                ),
-              ),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          _pageTitles[_selecteedPageIndex],
         ),
-        body: TabBarView(
-          children: [
-            Categories(),
-            Favorites(),
-          ],
-        ),
+      ),
+      body: PageView(
+        controller: _controller,
+        onPageChanged: (newPage) {
+          setState(() {
+            _selecteedPageIndex = newPage;
+          });
+        },
+        physics: AlwaysScrollableScrollPhysics(),
+        children: [
+          Categories(),
+          Favorites(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        unselectedItemColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
+        selectedItemColor: Theme.of(context).accentColor,
+        currentIndex: _selecteedPageIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.category,
+            ),
+            title: Text(
+              'Categories',
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite,
+            ),
+            title: Text(
+              'Favorites',
+            ),
+          ),
+        ],
       ),
     );
   }
