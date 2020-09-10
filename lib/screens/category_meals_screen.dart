@@ -6,15 +6,27 @@ import '../models/meal_detail_argument.dart';
 import '../screens/meals_detail_screen.dart';
 import '../widgets/meal_tile.dart';
 
-class CategoryMeals extends StatelessWidget {
+class CategoryMeals extends StatefulWidget {
   static const CategoryMealsRoute = '/recipes';
 
-  void clickHandler(context, id) {
-    Navigator.of(context).pushNamed(
+  @override
+  _CategoryMealsState createState() => _CategoryMealsState();
+}
+
+class _CategoryMealsState extends State<CategoryMeals> {
+  String _neglectId;
+
+  void clickHandler(context, id) async {
+    final value = await Navigator.of(context).pushNamed(
       MealDetail.MealDetailRoute,
       arguments: MealDetailArgument(
         id: id,
       ),
+    );
+    setState(
+      () {
+        _neglectId = value;
+      },
     );
   }
 
@@ -29,6 +41,8 @@ class CategoryMeals extends StatelessWidget {
             _arguments.id,
           ),
         )
+        .where(
+            (element) => _neglectId != null ? element.id != _neglectId : true)
         .toList();
     return Scaffold(
       appBar: AppBar(

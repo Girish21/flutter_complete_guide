@@ -56,6 +56,16 @@ class MealDetail extends StatelessWidget {
         title: Text(
           '${meal.title}',
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.delete,
+            ),
+            onPressed: () => Navigator.of(context).pop(
+              detail.id,
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
