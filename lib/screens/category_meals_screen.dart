@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/models/meal.dart';
 
-import '../dummy_data.dart';
 import '../models/category_meals_arguments.dart';
 import '../models/meal_detail_argument.dart';
 import '../screens/meals_detail_screen.dart';
@@ -8,6 +8,10 @@ import '../widgets/meal_tile.dart';
 
 class CategoryMeals extends StatefulWidget {
   static const CategoryMealsRoute = '/recipes';
+
+  final List<Meal> meals;
+
+  const CategoryMeals({Key key, this.meals}) : super(key: key);
 
   @override
   _CategoryMealsState createState() => _CategoryMealsState();
@@ -35,7 +39,7 @@ class _CategoryMealsState extends State<CategoryMeals> {
     final CategoryMealsArgument _arguments =
         ModalRoute.of(context).settings.arguments;
 
-    final _filteredCategoryMeals = DUMMY_MEALS
+    final _filteredCategoryMeals = widget.meals
         .where(
           (element) => element.categories.contains(
             _arguments.id,
