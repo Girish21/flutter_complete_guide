@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './dummy_data.dart';
+import './models/meal.dart';
 import './screens/category_meals_screen.dart';
 import './screens/filters_screen.dart';
 import './screens/meals_detail_screen.dart';
@@ -24,6 +25,36 @@ class _MyAppState extends State<MyApp> {
   };
 
   var listData = DUMMY_MEALS;
+  List<Meal> _favorites = [];
+
+  void _toggleFavorites(String id) {
+    final isPresent = _favorites.indexWhere(
+      (element) => element.id == id,
+    );
+
+    if (isPresent == -1) {
+      setState(() {
+        _favorites = [
+          ..._favorites,
+          ...DUMMY_MEALS.where(
+            (element) => element.id == id,
+          ),
+        ];
+      });
+    } else {
+      setState(() {
+        _favorites = _favorites
+            .where(
+              (element) => element.id != id,
+            )
+            .toList();
+      });
+    }
+  }
+
+  bool _isFavorite(String id) {
+    return _favorites.indexWhere((element) => element.id == id) >= 0;
+  }
 
   void saveFilters(Map<String, bool> filters) {
     setState(() {
@@ -76,11 +107,16 @@ class _MyAppState extends State<MyApp> {
             ),
       ),
       routes: {
-        '/': (ctx) => TabsScreen(),
+        '/': (ctx) => TabsScreen(
+              favorites: _favorites,
+            ),
         CategoryMeals.CategoryMealsRoute: (ctx) => CategoryMeals(
               meals: listData,
             ),
-        MealDetail.MealDetailRoute: (ctx) => MealDetail(),
+        MealDetail.MealDetailRoute: (ctx) => MealDetail(
+              toggleFavorites: _toggleFavorites,
+              isFavorite: _isFavorite,
+            ),
         Filters.FiltersRoute: (ctx) => Filters(
               saveFilters: saveFilters,
               filters: _filters,
