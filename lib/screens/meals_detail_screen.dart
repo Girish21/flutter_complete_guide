@@ -6,6 +6,14 @@ import '../models/meal_detail_argument.dart';
 
 class MealDetail extends StatelessWidget {
   static const MealDetailRoute = '/detail';
+  final Function toggleFavorites;
+  final Function isFavorite;
+
+  const MealDetail({
+    Key key,
+    this.toggleFavorites,
+    this.isFavorite,
+  }) : super(key: key);
 
   List<Widget> _buildTitleWidget(BuildContext context, String text) {
     return [
@@ -66,6 +74,14 @@ class MealDetail extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => toggleFavorites(
+          detail.id,
+        ),
+        child: Icon(
+          isFavorite(detail.id) ? Icons.star : Icons.star_border,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
