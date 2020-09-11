@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/models/meal.dart';
+import 'package:flutter_complete_guide/widgets/meals_list.dart';
 
 import '../models/category_meals_arguments.dart';
 import '../models/meal_detail_argument.dart';
 import '../screens/meals_detail_screen.dart';
-import '../widgets/meal_tile.dart';
 
 class CategoryMeals extends StatefulWidget {
   static const CategoryMealsRoute = '/recipes';
 
   final List<Meal> meals;
 
-  const CategoryMeals({Key key, this.meals}) : super(key: key);
+  const CategoryMeals({
+    Key key,
+    @required this.meals,
+  }) : super(key: key);
 
   @override
   _CategoryMealsState createState() => _CategoryMealsState();
@@ -27,11 +30,9 @@ class _CategoryMealsState extends State<CategoryMeals> {
         id: id,
       ),
     );
-    setState(
-      () {
-        _neglectId = value;
-      },
-    );
+    setState(() {
+      _neglectId = value;
+    });
   }
 
   @override
@@ -54,20 +55,9 @@ class _CategoryMealsState extends State<CategoryMeals> {
           _arguments.category,
         ),
       ),
-      body: ListView.builder(
-        itemCount: _filteredCategoryMeals.length,
-        itemBuilder: (context, index) {
-          final element = _filteredCategoryMeals[index];
-          return MealTile(
-            affordability: element.affordability,
-            complexity: element.complexity,
-            id: element.id,
-            imageUrl: element.imageUrl,
-            title: element.title,
-            duration: element.duration,
-            clickHandler: clickHandler,
-          );
-        },
+      body: MealsList(
+        clickHandler: clickHandler,
+        filteredCategoryMeals: _filteredCategoryMeals,
       ),
     );
   }
