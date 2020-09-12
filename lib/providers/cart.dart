@@ -25,6 +25,7 @@ class Cart with ChangeNotifier {
   }
 
   var itemsInCart = 0;
+  var total = 0.0;
 
   void addItem({
     String id,
@@ -32,6 +33,7 @@ class Cart with ChangeNotifier {
     String title,
   }) {
     itemsInCart++;
+    total += price;
 
     if (_items.containsKey(id)) {
       _items.update(
@@ -59,5 +61,18 @@ class Cart with ChangeNotifier {
 
   int get itemCount {
     return itemsInCart;
+  }
+
+  String get totalPrice {
+    return total.toStringAsFixed(2);
+  }
+
+  void removeItem(String id) {
+    var item = _items.remove(id);
+
+    itemsInCart -= item.quantity;
+    total -= item.quantity * item.price;
+
+    notifyListeners();
   }
 }
