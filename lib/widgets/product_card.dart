@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/product_detail_argument.dart';
+import '../providers/product.dart';
 import '../screens/product_detail_screen.dart';
 
 class ProductCard extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imgUrl;
-
   const ProductCard({
     Key key,
-    @required this.id,
-    @required this.title,
-    @required this.imgUrl,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _product = Provider.of<Product>(context);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(
         16,
@@ -27,12 +24,12 @@ class ProductCard extends StatelessWidget {
             Navigator.of(context).pushNamed(
               ProductDetail.RouteName,
               arguments: ProductDetailArgument(
-                id,
+                _product.id,
               ),
             );
           },
           child: Image.network(
-            imgUrl,
+            _product.imageUrl,
             fit: BoxFit.contain,
           ),
         ),
@@ -40,13 +37,13 @@ class ProductCard extends StatelessWidget {
           backgroundColor: Colors.black87,
           leading: IconButton(
             icon: Icon(
-              Icons.favorite,
+              _product.isFavorite ? Icons.favorite : Icons.favorite_border,
             ),
-            onPressed: () {},
+            onPressed: () => _product.toggleFavorite(),
             color: Theme.of(context).accentColor,
           ),
           title: Text(
-            title,
+            _product.title,
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
