@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/providers/cart.dart';
-import 'package:flutter_complete_guide/widgets/cart_item.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/cart.dart';
+import '../providers/orders.dart';
+import '../widgets/cart_item.dart';
 
 class ShoppingCart extends StatelessWidget {
   static const RouteName = '/cart';
@@ -38,7 +40,7 @@ class ShoppingCart extends StatelessWidget {
                   Spacer(),
                   Chip(
                     label: Text(
-                      '\$${_cart.totalPrice}',
+                      '\$${_cart.totalPrice.toStringAsFixed(2)}',
                       style: TextStyle(
                         color:
                             Theme.of(context).primaryTextTheme.headline6.color,
@@ -47,7 +49,14 @@ class ShoppingCart extends StatelessWidget {
                     backgroundColor: Theme.of(context).accentColor,
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Cart>(context, listen: false).clear();
+
+                      Provider.of<Orders>(context, listen: false).addOrder(
+                        cartItems,
+                        _cart.totalPrice,
+                      );
+                    },
                     child: Text('Order Now'),
                     textColor: Theme.of(context).primaryColor,
                   ),
