@@ -63,8 +63,8 @@ class Cart with ChangeNotifier {
     return itemsInCart;
   }
 
-  String get totalPrice {
-    return total.toStringAsFixed(2);
+  double get totalPrice {
+    return total;
   }
 
   void removeItem(String id) {
@@ -72,6 +72,14 @@ class Cart with ChangeNotifier {
 
     itemsInCart -= item.quantity;
     total -= item.quantity * item.price;
+
+    notifyListeners();
+  }
+
+  void clear() {
+    _items = {};
+    itemsInCart = 0;
+    total = 0.0;
 
     notifyListeners();
   }
