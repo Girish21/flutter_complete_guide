@@ -16,10 +16,8 @@ class ProductsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<Products>(context);
 
-    final _products = productsProvider.products.where((element) {
-      if (showFavorites) return element.isFavorite;
-      return true;
-    }).toList();
+    final _products =
+        showFavorites ? productsProvider.favorites : productsProvider.products;
 
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
