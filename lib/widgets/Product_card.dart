@@ -26,6 +26,7 @@ class ProductCard extends StatelessWidget {
             Icons.favorite,
           ),
           onPressed: () {},
+          color: Theme.of(context).accentColor,
         ),
         title: Text(
           title,
@@ -36,6 +37,7 @@ class ProductCard extends StatelessWidget {
             Icons.shopping_cart,
           ),
           onPressed: () {},
+          color: Theme.of(context).accentColor,
         ),
       ),
     );
