@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../models/product_detail_argument.dart';
+import '../screens/product_detail_screen.dart';
+
 class ProductCard extends StatelessWidget {
   final String id;
   final String title;
@@ -19,9 +22,19 @@ class ProductCard extends StatelessWidget {
         16,
       ),
       child: GridTile(
-        child: Image.network(
-          imgUrl,
-          fit: BoxFit.contain,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              ProductDetail.RouteName,
+              arguments: ProductDetailArgument(
+                id,
+              ),
+            );
+          },
+          child: Image.network(
+            imgUrl,
+            fit: BoxFit.contain,
+          ),
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
