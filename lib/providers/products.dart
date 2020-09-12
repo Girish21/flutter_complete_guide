@@ -38,7 +38,12 @@ class Products with ChangeNotifier {
     ),
   ];
 
+  var showFavorites = false;
+
   List<Product> get products {
+    if (showFavorites)
+      return _products.where((element) => element.isFavorite).toList();
+
     return [..._products];
   }
 
@@ -46,5 +51,10 @@ class Products with ChangeNotifier {
     return _products.firstWhere(
       (element) => element.id == id,
     );
+  }
+
+  void setShowFavorite(bool val) {
+    showFavorites = val;
+    notifyListeners();
   }
 }
