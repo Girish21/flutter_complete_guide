@@ -29,10 +29,9 @@ class ProductsList extends StatelessWidget {
       itemBuilder: (context, index) {
         final product = _products[index];
 
-        return ProductCard(
-          imgUrl: product.imageUrl,
-          title: product.title,
-          id: product.id,
+        return ChangeNotifierProvider(
+          create: (ctx) => product,
+          child: ProductCard(),
         );
       },
     );
