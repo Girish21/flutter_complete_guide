@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/providers/cart.dart';
-import 'package:flutter_complete_guide/widgets/badge.dart';
 import 'package:provider/provider.dart';
 
+import './cart_screen.dart';
+import '../providers/cart.dart';
+import '../widgets/badge.dart';
 import '../widgets/products_list.dart';
 
 enum FilterOptions {
@@ -70,7 +71,11 @@ class _ProductsOverviewState extends State<ProductsOverview> {
               icon: Icon(
                 Icons.shopping_cart,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  ShoppingCart.RouteName,
+                );
+              },
             ),
           ),
         ],
