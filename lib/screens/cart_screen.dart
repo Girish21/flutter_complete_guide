@@ -50,12 +50,12 @@ class ShoppingCart extends StatelessWidget {
                   ),
                   FlatButton(
                     onPressed: () {
-                      Provider.of<Cart>(context, listen: false).clear();
-
                       Provider.of<Orders>(context, listen: false).addOrder(
                         cartItems,
                         _cart.totalPrice,
                       );
+
+                      Provider.of<Cart>(context, listen: false).clear();
                     },
                     child: Text('Order Now'),
                     textColor: Theme.of(context).primaryColor,
