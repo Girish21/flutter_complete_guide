@@ -12,13 +12,14 @@ class ProductDetail extends StatelessWidget {
     final ProductDetailArgument product =
         ModalRoute.of(context).settings.arguments;
 
-    final productsProvider = Provider.of<Products>(context);
+    final productsProvider = Provider.of<Products>(
+      context,
+      listen: false,
+    );
 
-    final _product = productsProvider.products
-        .where(
-          (element) => element.id == product.id,
-        )
-        .elementAt(0);
+    final _product = productsProvider.findById(
+      product.id,
+    );
 
     return Scaffold(
       appBar: AppBar(
