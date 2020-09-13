@@ -55,4 +55,33 @@ class Products with ChangeNotifier {
       (element) => element.id == id,
     );
   }
+
+  void addProduct(Product product) {
+    _products = [product, ..._products];
+    notifyListeners();
+  }
+
+  void updateProduct(Product product) {
+    final indexToUpdate =
+        _products.indexWhere((element) => element.id == product.id);
+
+    _products = [
+      ..._products.sublist(0, indexToUpdate),
+      product,
+      ..._products.sublist(indexToUpdate + 1)
+    ];
+
+    notifyListeners();
+  }
+
+  void deleteProduct(String id) {
+    final indexToDelete = _products.indexWhere((element) => element.id == id);
+
+    _products = [
+      ..._products.sublist(0, indexToDelete),
+      ..._products.sublist(indexToDelete + 1)
+    ];
+
+    notifyListeners();
+  }
 }
