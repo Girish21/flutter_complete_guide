@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../screens/orders_screen.dart';
+import '../screens/user_products_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   Widget buildListTile(Icon icon, String title, Function clickHandler) {
@@ -43,6 +44,18 @@ class AppDrawer extends StatelessWidget {
             () {
               Navigator.of(context).pushReplacementNamed(
                 OrdersScreen.RouteName,
+              );
+            },
+          ),
+          Divider(),
+          buildListTile(
+            Icon(
+              Icons.edit,
+            ),
+            'Manage Products',
+            () {
+              Navigator.of(context).pushReplacementNamed(
+                UserProducts.RouteName,
               );
             },
           ),
