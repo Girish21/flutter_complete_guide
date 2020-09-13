@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/models/product_detail_argument.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+
 import '../providers/product.dart';
+import '../providers/products.dart';
 
 final uuid = Uuid();
 
@@ -28,10 +32,29 @@ class _EditProductState extends State<EditProduct> {
     imageUrl: '',
   );
 
+  var isInit = true;
+  var newProduct = true;
+
   @override
   void initState() {
     super.initState();
     _imageUrlFocusNode.addListener(updateImageUrl);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (isInit) {
+      final productId =
+          ModalRoute.of(context).settings.arguments as ProductDetailArgument;
+
+      if (productId != null) {
+        _editedProduct = Provider.of<Products>(context).findById(productId.id);
+        _imageUrlController.text = _editedProduct.imageUrl;
+        newProduct = false;
+      }
+    }
+    isInit = false;
   }
 
   @override
@@ -46,12 +69,23 @@ class _EditProductState extends State<EditProduct> {
 
   void updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
-      setState(() {});
+      if (_imageUrlController.text.length != 0 &&
+          _imageUrlController.text.startsWith('https')) setState(() {});
     }
   }
 
   void _saveForm() {
-    _formKey.currentState.save();
+    final isValid = _formKey.currentState.validate();
+    if (isValid) {
+      _formKey.currentState.save();
+      if (newProduct)
+        Provider.of<Products>(context, listen: false)
+            .addProduct(_editedProduct);
+      else
+        Provider.of<Products>(context, listen: false)
+            .updateProduct(_editedProduct);
+      Navigator.of(context).pop();
+    }
   }
 
   @override
@@ -85,6 +119,11 @@ class _EditProductState extends State<EditProduct> {
                   onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(
                     _priceFocusNode,
                   ),
+                  validator: (value) {
+                    if (value.isEmpty) return 'Title is required';
+                    return null;
+                  },
+                  initialValue: _editedProduct.title,
                   onSaved: (value) {
                     _editedProduct = Product(
                       id: _editedProduct.id,
@@ -92,6 +131,7 @@ class _EditProductState extends State<EditProduct> {
                       description: _editedProduct.description,
                       price: _editedProduct.price,
                       imageUrl: _editedProduct.imageUrl,
+                      isFavorite: _editedProduct.isFavorite,
                     );
                   },
                 ),
@@ -105,6 +145,17 @@ class _EditProductState extends State<EditProduct> {
                   onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(
                     _descriptionFocusNode,
                   ),
+                  validator: (value) {
+                    if (value.isEmpty) return 'Please enter price';
+                    if (double.tryParse(value) == null)
+                      return 'Please enter a valid price';
+
+                    if (double.parse(value) <= 0)
+                      return 'Please enter a number greater than 0';
+
+                    return null;
+                  },
+                  initialValue: _editedProduct.price.toStringAsFixed(2),
                   onSaved: (value) {
                     _editedProduct = Product(
                       id: _editedProduct.id,
@@ -112,6 +163,7 @@ class _EditProductState extends State<EditProduct> {
                       description: _editedProduct.description,
                       price: double.parse(value),
                       imageUrl: _editedProduct.imageUrl,
+                      isFavorite: _editedProduct.isFavorite,
                     );
                   },
                 ),
@@ -122,6 +174,11 @@ class _EditProductState extends State<EditProduct> {
                   maxLines: 3,
                   keyboardType: TextInputType.multiline,
                   focusNode: _descriptionFocusNode,
+                  validator: (value) {
+                    if (value.isEmpty) return 'Please enter a description';
+                    return null;
+                  },
+                  initialValue: _editedProduct.description,
                   onSaved: (value) {
                     _editedProduct = Product(
                       id: _editedProduct.id,
@@ -129,6 +186,7 @@ class _EditProductState extends State<EditProduct> {
                       description: value,
                       price: _editedProduct.price,
                       imageUrl: _editedProduct.imageUrl,
+                      isFavorite: _editedProduct.isFavorite,
                     );
                   },
                 ),
@@ -169,6 +227,13 @@ class _EditProductState extends State<EditProduct> {
                         controller: _imageUrlController,
                         focusNode: _imageUrlFocusNode,
                         onFieldSubmitted: (_) => _saveForm(),
+                        validator: (value) {
+                          if (value.isEmpty) return 'Please enter an image URL';
+                          if (!value.startsWith('https'))
+                            return 'Please enter a valid image URL';
+
+                          return null;
+                        },
                         onSaved: (value) {
                           _editedProduct = Product(
                             id: _editedProduct.id,
@@ -176,6 +241,7 @@ class _EditProductState extends State<EditProduct> {
                             description: _editedProduct.description,
                             price: _editedProduct.price,
                             imageUrl: value,
+                            isFavorite: _editedProduct.isFavorite,
                           );
                         },
                       ),
