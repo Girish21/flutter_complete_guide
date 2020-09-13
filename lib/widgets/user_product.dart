@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/edit_product.dart';
+
 class UserProductItem extends StatelessWidget {
   final String title;
   final String imageUrl;
@@ -31,7 +33,11 @@ class UserProductItem extends StatelessWidget {
                 Icons.edit,
               ),
               color: Theme.of(context).primaryColor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  EditProduct.RouteName,
+                );
+              },
             ),
             IconButton(
               icon: Icon(
