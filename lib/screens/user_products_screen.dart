@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './edit_product.dart';
 import '../providers/products.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/user_product.dart';
@@ -21,7 +22,11 @@ class UserProducts extends StatelessWidget {
             icon: Icon(
               Icons.add,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                EditProduct.RouteName,
+              );
+            },
           ),
         ],
       ),
@@ -42,6 +47,7 @@ class UserProducts extends StatelessWidget {
             final product = _products.products[index];
 
             return UserProductItem(
+              id: product.id,
               title: product.title,
               imageUrl: product.imageUrl,
             );
