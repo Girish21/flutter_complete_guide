@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/models/product_detail_argument.dart';
+import 'package:flutter_complete_guide/providers/products.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/edit_product.dart';
 
 class UserProductItem extends StatelessWidget {
   final String title;
   final String imageUrl;
+  final String id;
 
   const UserProductItem({
     Key key,
     @required this.title,
     @required this.imageUrl,
+    @required this.id,
   }) : super(key: key);
 
   @override
@@ -36,6 +41,9 @@ class UserProductItem extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushNamed(
                   EditProduct.RouteName,
+                  arguments: ProductDetailArgument(
+                    id,
+                  ),
                 );
               },
             ),
@@ -44,7 +52,9 @@ class UserProductItem extends StatelessWidget {
                 Icons.delete,
               ),
               color: Theme.of(context).errorColor,
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<Products>(context, listen: false).deleteProduct(id);
+              },
             ),
           ],
         ),
