@@ -54,11 +54,28 @@ class ProductCard extends StatelessWidget {
             icon: Icon(
               Icons.shopping_cart,
             ),
-            onPressed: () => _cart.addItem(
-              id: _product.id,
-              price: _product.price,
-              title: _product.title,
-            ),
+            onPressed: () {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Added to cart',
+                  ),
+                  duration: Duration(
+                    seconds: 5,
+                  ),
+                  action: SnackBarAction(
+                    label: 'Confirm',
+                    onPressed: () {
+                      _cart.addItem(
+                        id: _product.id,
+                        price: _product.price,
+                        title: _product.title,
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
             color: Theme.of(context).accentColor,
           ),
         ),
