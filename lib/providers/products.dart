@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import './product.dart';
 
@@ -56,9 +58,36 @@ class Products with ChangeNotifier {
     );
   }
 
-  void addProduct(Product product) {
-    _products = [product, ..._products];
+  Future<bool> addProduct(Product product) async {
+    var success = false;
+
+    final res = await http.post(
+      'https://shop-app-ab094.firebaseio.com/products.json',
+      body: json.encode({
+        'title': product.title,
+        'description': product.description,
+        'price': product.price,
+        'imageUrl': product.imageUrl,
+        'isFavorite': product.isFavorite,
+      }),
+    );
+
+    if (res.statusCode == 200) {
+      final body = jsonDecode(res.body);
+      final _product = Product(
+        id: body['name'],
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+      );
+
+      _products = [_product, ..._products];
+      success = true;
+    }
+
     notifyListeners();
+    return success;
   }
 
   void updateProduct(Product product) {
