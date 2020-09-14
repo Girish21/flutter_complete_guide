@@ -74,17 +74,19 @@ class _EditProductState extends State<EditProduct> {
     }
   }
 
-  void _saveForm() {
+  void _saveForm() async {
+    var isSuccess = false;
     final isValid = _formKey.currentState.validate();
     if (isValid) {
       _formKey.currentState.save();
-      if (newProduct)
-        Provider.of<Products>(context, listen: false)
+      if (newProduct) {
+        isSuccess = await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
-      else
+      } else {
         Provider.of<Products>(context, listen: false)
             .updateProduct(_editedProduct);
-      Navigator.of(context).pop();
+      }
+      if (isSuccess) Navigator.of(context).pop();
     }
   }
 
