@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/products.dart';
 import 'package:provider/provider.dart';
 
 import './cart_screen.dart';
@@ -19,6 +20,21 @@ class ProductsOverview extends StatefulWidget {
 
 class _ProductsOverviewState extends State<ProductsOverview> {
   var showFavorites = false;
+  var init = true;
+  var isLoading = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (init) {
+      Provider.of<Products>(context).fetchProducts().then((_) {
+        setState(() {
+          isLoading = false;
+        });
+      });
+    }
+    init = false;
+  }
 
   PopupMenuItem _buildPopupMenuItem(String text, FilterOptions value) {
     return PopupMenuItem(
@@ -82,9 +98,13 @@ class _ProductsOverviewState extends State<ProductsOverview> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsList(
-        showFavorites: showFavorites,
-      ),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsList(
+              showFavorites: showFavorites,
+            ),
     );
   }
 }

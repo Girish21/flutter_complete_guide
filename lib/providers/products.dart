@@ -58,6 +58,30 @@ class Products with ChangeNotifier {
     );
   }
 
+  Future<void> fetchProducts() async {
+    try {
+      final response = await http.get(
+        'https://shop-app-ab094.firebaseio.com/products.json',
+      );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      responseBody.forEach((key, value) {
+        final product = Product(
+          id: key,
+          title: value['title'],
+          description: value['description'],
+          price: value['price'],
+          imageUrl: value['imageUrl'],
+          isFavorite: value['isFavorite'],
+        );
+
+        _products = [..._products, product];
+      });
+      notifyListeners();
+    } catch (err) {
+      throw err;
+    }
+  }
+
   Future<bool> addProduct(Product product) async {
     var success = false;
 
