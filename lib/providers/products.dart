@@ -61,33 +61,37 @@ class Products with ChangeNotifier {
   Future<bool> addProduct(Product product) async {
     var success = false;
 
-    final res = await http.post(
-      'https://shop-app-ab094.firebaseio.com/products.json',
-      body: json.encode({
-        'title': product.title,
-        'description': product.description,
-        'price': product.price,
-        'imageUrl': product.imageUrl,
-        'isFavorite': product.isFavorite,
-      }),
-    );
-
-    if (res.statusCode == 200) {
-      final body = jsonDecode(res.body);
-      final _product = Product(
-        id: body['name'],
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        imageUrl: product.imageUrl,
+    try {
+      final res = await http.post(
+        'https://shop-app-ab094.firebaseio.com/products.json',
+        body: json.encode({
+          'title': product.title,
+          'description': product.description,
+          'price': product.price,
+          'imageUrl': product.imageUrl,
+          'isFavorite': product.isFavorite,
+        }),
       );
 
-      _products = [_product, ..._products];
-      success = true;
-    }
+      if (res.statusCode == 200) {
+        final body = jsonDecode(res.body);
+        final _product = Product(
+          id: body['name'],
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+        );
 
-    notifyListeners();
-    return success;
+        _products = [_product, ..._products];
+        success = true;
+      }
+
+      notifyListeners();
+      return success;
+    } catch (e) {
+      throw e;
+    }
   }
 
   void updateProduct(Product product) {
