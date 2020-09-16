@@ -90,7 +90,7 @@ class _EditProductState extends State<EditProduct> {
           isSuccess = await Provider.of<Products>(context, listen: false)
               .addProduct(_editedProduct);
         } else {
-          Provider.of<Products>(context, listen: false)
+          isSuccess = await Provider.of<Products>(context, listen: false)
               .updateProduct(_editedProduct);
         }
 

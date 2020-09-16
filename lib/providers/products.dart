@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import './product.dart';
 
 class Products with ChangeNotifier {
+  static const API = 'https://shop-app-ab094.firebaseio.com/';
+
   List<Product> _products = [];
 
   List<Product> get products {
@@ -28,7 +30,7 @@ class Products with ChangeNotifier {
   Future<void> fetchProducts() async {
     try {
       final response = await http.get(
-        'https://shop-app-ab094.firebaseio.com/products.json',
+        '$API/products.json',
       );
       if (response.statusCode == 200) {
         _products = [];
@@ -59,7 +61,7 @@ class Products with ChangeNotifier {
 
     try {
       final res = await http.post(
-        'https://shop-app-ab094.firebaseio.com/products.json',
+        '$API/products.json',
         body: json.encode({
           'title': product.title,
           'description': product.description,
@@ -90,17 +92,36 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProduct(Product product) {
-    final indexToUpdate =
-        _products.indexWhere((element) => element.id == product.id);
+  Future<bool> updateProduct(Product product) async {
+    var success = false;
 
-    _products = [
-      ..._products.sublist(0, indexToUpdate),
-      product,
-      ..._products.sublist(indexToUpdate + 1)
-    ];
+    try {
+      final response = await http.patch(
+        '$API/products/${product.id}.json',
+        body: jsonEncode({
+          'title': product.title,
+          'description': product.description,
+          'price': product.price,
+          'imageUrl': product.imageUrl,
+        }),
+      );
+      if (response.statusCode == 200) {
+        success = true;
 
-    notifyListeners();
+        final indexToUpdate =
+            _products.indexWhere((element) => element.id == product.id);
+
+        _products = [
+          ..._products.sublist(0, indexToUpdate),
+          product,
+          ..._products.sublist(indexToUpdate + 1)
+        ];
+        notifyListeners();
+      }
+      return success;
+    } catch (e) {
+      throw e;
+    }
   }
 
   void deleteProduct(String id) {
