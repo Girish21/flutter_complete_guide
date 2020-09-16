@@ -1,12 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import './api.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
-  static const API = 'https://shop-app-ab094.firebaseio.com/';
-
   List<Product> _products = [];
 
   List<Product> get products {
@@ -30,7 +30,7 @@ class Products with ChangeNotifier {
   Future<void> fetchProducts() async {
     try {
       final response = await http.get(
-        '$API/products.json',
+        '${Api.API}/products.json',
       );
       if (response.statusCode == 200) {
         _products = [];
@@ -61,7 +61,7 @@ class Products with ChangeNotifier {
 
     try {
       final res = await http.post(
-        '$API/products.json',
+        '${Api.API}/products.json',
         body: json.encode({
           'title': product.title,
           'description': product.description,
@@ -97,7 +97,7 @@ class Products with ChangeNotifier {
 
     try {
       final response = await http.patch(
-        '$API/products/${product.id}.json',
+        '${Api.API}/products/${product.id}.json',
         body: jsonEncode({
           'title': product.title,
           'description': product.description,
@@ -128,7 +128,7 @@ class Products with ChangeNotifier {
     final indexToDelete = _products.indexWhere((element) => element.id == id);
 
     final response = await http.delete(
-      '$API/products/$id.json',
+      '${Api.API}/products/$id.json',
     );
 
     if (response.statusCode == 200) {
