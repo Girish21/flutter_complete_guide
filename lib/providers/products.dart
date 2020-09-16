@@ -124,14 +124,20 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
+  Future<void> deleteProduct(String id) async {
     final indexToDelete = _products.indexWhere((element) => element.id == id);
 
-    _products = [
-      ..._products.sublist(0, indexToDelete),
-      ..._products.sublist(indexToDelete + 1)
-    ];
+    final response = await http.delete(
+      '$API/products/$id.json',
+    );
 
-    notifyListeners();
+    if (response.statusCode == 200) {
+      _products = [
+        ..._products.sublist(0, indexToDelete),
+        ..._products.sublist(indexToDelete + 1)
+      ];
+
+      notifyListeners();
+    }
   }
 }
