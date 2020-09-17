@@ -5,10 +5,26 @@ import '../providers/orders.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/order_item.dart' as ord;
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   static const RouteName = '/orders';
 
   const OrdersScreen({Key key}) : super(key: key);
+
+  @override
+  _OrdersScreenState createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
+  var initCall = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (initCall) {
+      Provider.of<Orders>(context, listen: false).fetchOrders();
+    }
+    initCall = false;
+  }
 
   @override
   Widget build(BuildContext context) {

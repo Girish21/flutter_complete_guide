@@ -27,6 +27,37 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
+  Future<void> fetchOrders() async {
+    try {
+      final response = await http.get('${Api.API}/orders.json');
+
+      if (response.statusCode == 200) {
+        _orders = [];
+        final Map<String, dynamic> responseBody = jsonDecode(response.body);
+
+        responseBody.forEach((key, value) {
+          _orders = [
+            ..._orders,
+            OrderItem(
+              id: key,
+              amount: value['amount'],
+              products: List<Map>.from(jsonDecode(value['products']))
+                  .map(
+                    (e) => CartItem.fromJson(e),
+                  )
+                  .toList(),
+              dateTime: DateTime.parse(value['dateTime']),
+            ),
+          ];
+        });
+
+        notifyListeners();
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<bool> addOrder(List<CartItem> products, double total) async {
     var success = false;
 

@@ -22,6 +22,13 @@ class CartItem {
         'quantity': this.quantity,
         'price': this.price,
       };
+
+  static CartItem fromJson(Map item) => CartItem(
+        id: item['id'],
+        title: item['title'],
+        quantity: item['quantity'],
+        price: item['price'],
+      );
 }
 
 class Cart with ChangeNotifier {
