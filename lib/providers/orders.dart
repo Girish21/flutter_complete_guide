@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-import './cart.dart';
+import 'dart:convert';
 
-final uuid = Uuid();
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import './api.dart';
+import './cart.dart';
 
 class OrderItem {
   final String id;
@@ -25,17 +27,37 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
-  void addOrder(List<CartItem> products, double total) {
-    _orders = [
-      OrderItem(
-        id: uuid.v4(),
-        amount: total,
-        products: products,
-        dateTime: DateTime.now(),
-      ),
-      ..._orders
-    ];
+  Future<bool> addOrder(List<CartItem> products, double total) async {
+    var success = false;
 
-    notifyListeners();
+    try {
+      final response = await http.post(
+        '${Api.API}/orders.json',
+        body: jsonEncode({
+          'amount': total,
+          'products': jsonEncode(products),
+          'dateTime': DateTime.now().toString(),
+        }),
+      );
+      if (response.statusCode == 200) {
+        final id = jsonDecode(response.body)['name'];
+
+        _orders = [
+          OrderItem(
+            id: id,
+            amount: total,
+            products: products,
+            dateTime: DateTime.now(),
+          ),
+          ..._orders
+        ];
+        success = true;
+
+        notifyListeners();
+      }
+      return success;
+    } catch (e) {
+      throw e;
+    }
   }
 }

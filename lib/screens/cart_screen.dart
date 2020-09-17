@@ -3,10 +3,17 @@ import 'package:provider/provider.dart';
 
 import '../providers/cart.dart';
 import '../providers/orders.dart';
-import '../widgets/cart_item.dart';
+import '../widgets/cart_item.dart' as widget;
 
-class ShoppingCart extends StatelessWidget {
+class ShoppingCart extends StatefulWidget {
   static const RouteName = '/cart';
+
+  @override
+  _ShoppingCartState createState() => _ShoppingCartState();
+}
+
+class _ShoppingCartState extends State<ShoppingCart> {
+  var orderSubmitted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +57,26 @@ class ShoppingCart extends StatelessWidget {
                   ),
                   FlatButton(
                     onPressed: () {
-                      Provider.of<Orders>(context, listen: false).addOrder(
+                      setState(() {
+                        orderSubmitted = true;
+                      });
+                      Provider.of<Orders>(context, listen: false)
+                          .addOrder(
                         cartItems,
                         _cart.totalPrice,
-                      );
-
-                      Provider.of<Cart>(context, listen: false).clear();
+                      )
+                          .then((value) {
+                        if (value)
+                          Provider.of<Cart>(context, listen: false).clear();
+                        else
+                          Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Order not submitted',
+                              ),
+                            ),
+                          );
+                      });
                     },
                     child: Text('Order Now'),
                     textColor: Theme.of(context).primaryColor,
@@ -67,7 +88,7 @@ class ShoppingCart extends StatelessWidget {
           SizedBox(width: 16),
           Expanded(
             child: ListView.builder(
-              itemBuilder: (context, index) => CardItem(
+              itemBuilder: (context, index) => widget.CartItem(
                 id: cartItemKey[index],
                 price: cartItems[index].price,
                 quantity: cartItems[index].quantity,
