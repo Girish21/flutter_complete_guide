@@ -34,8 +34,12 @@ class Products with ChangeNotifier {
       );
       if (response.statusCode == 200) {
         _products = [];
-
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
+
+        if (responseBody == null) {
+          notifyListeners();
+          return;
+        }
 
         responseBody.forEach((key, value) {
           final product = Product(
