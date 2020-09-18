@@ -35,13 +35,18 @@ class Orders with ChangeNotifier {
         _orders = [];
         final Map<String, dynamic> responseBody = jsonDecode(response.body);
 
+        if (responseBody == null) {
+          notifyListeners();
+          return;
+        }
+
         responseBody.forEach((key, value) {
           _orders = [
             ..._orders,
             OrderItem(
               id: key,
               amount: value['amount'],
-              products: List<Map>.from(jsonDecode(value['products']))
+              products: List<Map>.from(value['products'])
                   .map(
                     (e) => CartItem.fromJson(e),
                   )
@@ -66,7 +71,7 @@ class Orders with ChangeNotifier {
         '${Api.API}/orders.json',
         body: jsonEncode({
           'amount': total,
-          'products': jsonEncode(products),
+          'products': products.map((e) => e.toJson()).toList(),
           'dateTime': DateTime.now().toString(),
         }),
       );
