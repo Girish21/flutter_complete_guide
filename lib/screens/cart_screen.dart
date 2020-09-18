@@ -3,17 +3,10 @@ import 'package:provider/provider.dart';
 
 import '../providers/cart.dart';
 import '../providers/orders.dart';
-import '../widgets/cart_item.dart' as widget;
+import '../widgets/cart_item.dart' as cartWidget;
 
-class ShoppingCart extends StatefulWidget {
+class ShoppingCart extends StatelessWidget {
   static const RouteName = '/cart';
-
-  @override
-  _ShoppingCartState createState() => _ShoppingCartState();
-}
-
-class _ShoppingCartState extends State<ShoppingCart> {
-  var orderSubmitted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,32 +48,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     ),
                     backgroundColor: Theme.of(context).accentColor,
                   ),
-                  FlatButton(
-                    onPressed: () {
-                      setState(() {
-                        orderSubmitted = true;
-                      });
-                      Provider.of<Orders>(context, listen: false)
-                          .addOrder(
-                        cartItems,
-                        _cart.totalPrice,
-                      )
-                          .then((value) {
-                        if (value)
-                          Provider.of<Cart>(context, listen: false).clear();
-                        else
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Order not submitted',
-                              ),
-                            ),
-                          );
-                      });
-                    },
-                    child: Text('Order Now'),
-                    textColor: Theme.of(context).primaryColor,
-                  ),
+                  OrderButton(cartItems: cartItems, cart: _cart),
                 ],
               ),
             ),
@@ -88,7 +56,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
           SizedBox(width: 16),
           Expanded(
             child: ListView.builder(
-              itemBuilder: (context, index) => widget.CartItem(
+              itemBuilder: (context, index) => cartWidget.CartItem(
                 id: cartItemKey[index],
                 price: cartItems[index].price,
                 quantity: cartItems[index].quantity,
@@ -99,6 +67,67 @@ class _ShoppingCartState extends State<ShoppingCart> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+    Key key,
+    @required this.cartItems,
+    @required this.cart,
+  }) : super(key: key);
+
+  final List<CartItem> cartItems;
+  final Cart cart;
+
+  @override
+  _OrderButtonState createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  var submitting = false;
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: widget.cart.totalPrice == 0 || submitting
+          ? null
+          : () {
+              setState(() {
+                submitting = true;
+              });
+              Provider.of<Orders>(
+                context,
+                listen: false,
+              )
+                  .addOrder(
+                widget.cartItems,
+                widget.cart.totalPrice,
+              )
+                  .then((value) {
+                setState(() {
+                  submitting = false;
+                });
+                if (value)
+                  Provider.of<Cart>(context, listen: false).clear();
+                else
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Order not submitted',
+                      ),
+                    ),
+                  );
+              });
+            },
+      child: submitting
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Text(
+              'Order Now',
+            ),
+      textColor: Theme.of(context).primaryColor,
     );
   }
 }
