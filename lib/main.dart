@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/screens/edit_product.dart';
 import 'package:provider/provider.dart';
 
 import './providers/auth.dart';
 import './providers/cart.dart';
 import './providers/orders.dart';
+import './providers/product.dart';
 import './providers/products.dart';
 import './screens/auth_screen.dart';
 import './screens/cart_screen.dart';
+import './screens/edit_product.dart';
 import './screens/orders_screen.dart';
 import './screens/product_detail_screen.dart';
 import './screens/products_overview_screen.dart';
@@ -26,16 +27,19 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProxyProvider<Auth, Products>(
           create: null,
-          update: (ctx, auth, previous) =>
-              Products(auth.token, previous == null ? [] : previous.products),
+          update: (ctx, auth, previous) => Products(
+            token: auth.token,
+            userId: auth.userId,
+            products: previous == null ? List<Product>() : previous.products,
+          ),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
           create: null,
-          update: (ctx, auth, orders) =>
-              Orders(auth.token, orders == null ? [] : orders.orders),
+          update: (ctx, auth, orders) => Orders(
+              auth.token, orders == null ? List<OrderItem>() : orders.orders),
         ),
       ],
       child: Consumer<Auth>(
