@@ -27,6 +27,14 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  void logout() {
+    _token = null;
+    _expiryDate = null;
+    _userId = null;
+
+    notifyListeners();
+  }
+
   Future<bool> authenticate(String email, String password, bool login) async {
     var success = false;
     try {
