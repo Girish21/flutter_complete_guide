@@ -7,11 +7,18 @@ import './api.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
-  final String token;
+  final String _token;
+  final String _userId;
 
   List<Product> _products;
 
-  Products(this.token, this._products);
+  Products({
+    @required token,
+    @required products,
+    @required userId,
+  })  : _products = products,
+        _token = token,
+        _userId = userId;
 
   List<Product> get products {
     return [..._products];
@@ -34,7 +41,7 @@ class Products with ChangeNotifier {
   Future<void> fetchProducts() async {
     try {
       final response = await http.get(
-        '${Api.API}/products.json?auth=$token',
+        '${Api.API}/products.json?auth=$_token',
       );
       if (response.statusCode == 200) {
         _products = [];
@@ -44,15 +51,21 @@ class Products with ChangeNotifier {
           notifyListeners();
           return;
         }
+        final favoriteReponse = await http
+            .get('${Api.API}/user_favorites/$_userId.json?auth=$_token');
 
-        responseBody.forEach((key, value) {
+        final favoritesBody = jsonDecode(
+            favoriteReponse.body != null ? favoriteReponse.body : {});
+
+        responseBody.forEach((key, value) async {
           final product = Product(
             id: key,
             title: value['title'],
             description: value['description'],
             price: value['price'],
             imageUrl: value['imageUrl'],
-            isFavorite: value['isFavorite'],
+            isFavorite:
+                favoritesBody != null ? favoritesBody[key] ?? false : false,
           );
 
           _products = [..._products, product];
@@ -69,13 +82,12 @@ class Products with ChangeNotifier {
 
     try {
       final res = await http.post(
-        '${Api.API}/products.json?auth=$token',
+        '${Api.API}/products.json?auth=$_token',
         body: json.encode({
           'title': product.title,
           'description': product.description,
           'price': product.price,
           'imageUrl': product.imageUrl,
-          'isFavorite': product.isFavorite,
         }),
       );
 
@@ -105,7 +117,7 @@ class Products with ChangeNotifier {
 
     try {
       final response = await http.patch(
-        '${Api.API}/products/${product.id}.json?auth=$token',
+        '${Api.API}/products/${product.id}.json?auth=$_token',
         body: jsonEncode({
           'title': product.title,
           'description': product.description,
@@ -136,7 +148,7 @@ class Products with ChangeNotifier {
     final indexToDelete = _products.indexWhere((element) => element.id == id);
 
     final response = await http.delete(
-      '${Api.API}/products/$id.json?auth=$token',
+      '${Api.API}/products/$id.json?auth=$_token',
     );
 
     if (response.statusCode == 200) {
