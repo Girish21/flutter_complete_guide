@@ -9,9 +9,12 @@ import '../widgets/user_product.dart';
 class UserProducts extends StatelessWidget {
   static const RouteName = '/products';
 
+  Future _refreshProducts(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).fetchProducts(true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _products = Provider.of<Products>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -31,32 +34,41 @@ class UserProducts extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: RefreshIndicator(
-        onRefresh: () =>
-            Provider.of<Products>(context, listen: false).fetchProducts(),
-        child: Padding(
-          padding: const EdgeInsets.all(
-            8,
-          ),
-          child: ListView.separated(
-            separatorBuilder: (context, index) {
-              final products = _products.products;
+      body: FutureBuilder(
+        future: _refreshProducts(context),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : RefreshIndicator(
+                    onRefresh: () => _refreshProducts(context),
+                    child: Padding(
+                      padding: const EdgeInsets.all(
+                        8,
+                      ),
+                      child: Consumer<Products>(
+                        builder: (context, value, child) => ListView.separated(
+                          separatorBuilder: (context, index) {
+                            final products = value.products;
 
-              if (index < products.length - 1) return Divider();
-              return null;
-            },
-            itemCount: _products.products.length,
-            itemBuilder: (context, index) {
-              final product = _products.products[index];
+                            if (index < products.length - 1) return Divider();
+                            return null;
+                          },
+                          itemCount: value.products.length,
+                          itemBuilder: (context, index) {
+                            final product = value.products[index];
 
-              return UserProductItem(
-                id: product.id,
-                title: product.title,
-                imageUrl: product.imageUrl,
-              );
-            },
-          ),
-        ),
+                            return UserProductItem(
+                              id: product.id,
+                              title: product.title,
+                              imageUrl: product.imageUrl,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
       ),
     );
   }
