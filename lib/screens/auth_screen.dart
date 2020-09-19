@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './products_overview_screen.dart';
 import '../models/http_exception.dart';
 import '../providers/auth.dart';
 
@@ -162,7 +161,6 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pushReplacementNamed(ProductsOverview.RouteName);
   }
 
   void _switchAuthMode() {
