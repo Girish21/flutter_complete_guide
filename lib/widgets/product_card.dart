@@ -43,7 +43,7 @@ class ProductCard extends StatelessWidget {
               icon: Icon(
                 product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
-              onPressed: () => product.toggleFavorite(auth.token),
+              onPressed: () => product.toggleFavorite(auth.token, auth.userId),
               color: Theme.of(context).accentColor,
             ),
           ),
