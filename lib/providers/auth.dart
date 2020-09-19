@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/http_exception.dart';
+
 class Auth with ChangeNotifier {
   String _token;
   DateTime _expiryDate;
@@ -26,16 +28,19 @@ class Auth with ChangeNotifier {
         ),
       );
 
-      if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
+      final responseBody = jsonDecode(response.body);
+
+      if (responseBody['error'] == null) {
         _token = responseBody['idToken'];
         _expiryDate = DateTime.now()
             .add(Duration(seconds: int.parse(responseBody['expiresIn'])));
         _userId = responseBody['localId'];
         success = true;
+      } else
+        throw HttpException(responseBody['error']['message']);
 
-        notifyListeners();
-      }
+      notifyListeners();
+
       return success;
     } catch (e) {
       throw e;
