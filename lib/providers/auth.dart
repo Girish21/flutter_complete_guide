@@ -10,6 +10,23 @@ class Auth with ChangeNotifier {
   DateTime _expiryDate;
   String _userId;
 
+  bool get isAuthenticated {
+    return token != null;
+  }
+
+  get userId {
+    return _userId;
+  }
+
+  String get token {
+    if (_token != null &&
+        _expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now())) {
+      return _token;
+    }
+    return null;
+  }
+
   Future<bool> authenticate(String email, String password, bool login) async {
     var success = false;
     try {
