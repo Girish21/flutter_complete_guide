@@ -38,10 +38,12 @@ class Products with ChangeNotifier {
     );
   }
 
-  Future<void> fetchProducts() async {
+  Future<void> fetchProducts([bool filterByUser = false]) async {
+    final filterQuery =
+        filterByUser ? '&orderBy="creatorId"&equalTo="$_userId"' : '';
     try {
       final response = await http.get(
-        '${Api.API}/products.json?auth=$_token',
+        '${Api.API}/products.json?auth=$_token$filterQuery',
       );
       if (response.statusCode == 200) {
         _products = [];
@@ -88,6 +90,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'price': product.price,
           'imageUrl': product.imageUrl,
+          'creatorId': _userId,
         }),
       );
 
