@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/screens/chat_screen.dart';
 
 import './screens/auth_screen.dart';
 
@@ -31,7 +33,15 @@ class MyApp extends StatelessWidget {
           onTap: () => FocusScope.of(context).requestFocus(
             FocusNode(),
           ),
-          child: AuthScreen(),
+          child: StreamBuilder<FirebaseUser>(
+            stream: FirebaseAuth.instance.onAuthStateChanged,
+            builder: (context, snapshot) {
+              if (snapshot.hasData)
+                return ChatScreeen();
+              else
+                return AuthScreen();
+            },
+          ),
         ),
       ),
     );
