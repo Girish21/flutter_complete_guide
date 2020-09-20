@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         backgroundColor: Colors.purple,
-        accentColor: Colors.greenAccent,
+        accentColor: Colors.teal,
         accentColorBrightness: Brightness.dark,
         buttonTheme: ButtonTheme.of(context).copyWith(
-          buttonColor: Colors.green,
+          buttonColor: Colors.teal,
           textTheme: ButtonTextTheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
@@ -29,19 +29,14 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(
-            FocusNode(),
-          ),
-          child: StreamBuilder<FirebaseUser>(
-            stream: FirebaseAuth.instance.onAuthStateChanged,
-            builder: (context, snapshot) {
-              if (snapshot.hasData)
-                return ChatScreeen();
-              else
-                return AuthScreen();
-            },
-          ),
+        child: StreamBuilder<FirebaseUser>(
+          stream: FirebaseAuth.instance.onAuthStateChanged,
+          builder: (context, snapshot) {
+            if (snapshot.hasData)
+              return ChatScreeen();
+            else
+              return AuthScreen();
+          },
         ),
       ),
     );
