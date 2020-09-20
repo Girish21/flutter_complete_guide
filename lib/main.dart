@@ -46,14 +46,24 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: Consumer<Auth>(
-        builder: (context, value, _) => MaterialApp(
+        builder: (context, auth, _) => MaterialApp(
           title: 'My Shop',
           theme: ThemeData(
             primarySwatch: Colors.blue,
             accentColor: Colors.deepOrange,
             fontFamily: 'Lato',
           ),
-          home: value.isAuthenticated ? ProductsOverview() : AuthScreen(),
+          home: auth.isAuthenticated
+              ? ProductsOverview()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, snapshot) =>
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : AuthScreen(),
+                ),
           routes: {
             ProductDetail.RouteName: (ctx) => ProductDetail(),
             ShoppingCart.RouteName: (ctx) => ShoppingCart(),
