@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/chat/message_input.dart';
 import '../widgets/chat/messages.dart';
 
 class ChatScreeen extends StatelessWidget {
@@ -46,17 +46,8 @@ class ChatScreeen extends StatelessWidget {
             Expanded(
               child: Messages(),
             ),
+            MessageInput(),
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Firestore.instance.collection('chat').add({
-            'text': 'Hello from app',
-          });
-        },
-        child: Icon(
-          Icons.add,
         ),
       ),
     );
