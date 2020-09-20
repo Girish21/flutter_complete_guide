@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './screens/chat_screen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -7,13 +9,10 @@ void main() {
 class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter'),
-        ),
-        body: Center(
-          child: Text('Flutter'),
-        ),
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Chat',
+      home: SafeArea(
+        child: ChatScreeen(),
       ),
     );
   }
