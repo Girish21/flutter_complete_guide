@@ -43,12 +43,17 @@ class _MessageInputState extends State<MessageInput> {
                     _messageController.clear();
 
                     final user = await FirebaseAuth.instance.currentUser();
+                    final userData = await Firestore.instance
+                        .collection('users')
+                        .document(user.uid)
+                        .get();
 
                     final response =
                         await Firestore.instance.collection('chat').add({
                       'text': enteredMessage,
                       'createdAt': Timestamp.now(),
                       'userId': user.uid,
+                      'userName': userData['userName'],
                     });
 
                     if (response != null) {

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class MessageChatBubble extends StatelessWidget {
   final String message;
+  final String userName;
   final bool isMe;
 
   const MessageChatBubble({
     Key key,
     this.message,
     this.isMe,
+    this.userName,
   }) : super(key: key);
 
   @override
@@ -34,13 +36,32 @@ class MessageChatBubble extends StatelessWidget {
             vertical: 4.0,
             horizontal: 8.0,
           ),
-          child: Text(
-            message,
-            style: TextStyle(
-              color: isMe
-                  ? Colors.black
-                  : Theme.of(context).accentTextTheme.headline6.color,
-            ),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  userName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: isMe
+                        ? Colors.black
+                        : Theme.of(context).accentTextTheme.headline6.color,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  message,
+                  style: TextStyle(
+                    color: isMe
+                        ? Colors.black
+                        : Theme.of(context).accentTextTheme.headline6.color,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

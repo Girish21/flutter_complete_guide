@@ -31,11 +31,12 @@ class Messages extends StatelessWidget {
                 final document = snapshot.data.documents[index];
 
                 return MessageChatBubble(
-                  message: '${document['text']}',
+                  message: document['text'],
                   isMe: document['userId'] == auth.data.uid,
                   key: ValueKey(
                     document.documentID,
                   ),
+                  userName: document['userName'],
                 );
               },
             );
