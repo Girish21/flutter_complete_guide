@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
+  final void Function(File image) onImageSelected;
+
+  const UserImagePicker({Key key, this.onImageSelected}) : super(key: key);
+
   @override
   _UserImagePickerState createState() => _UserImagePickerState();
 }
@@ -15,10 +19,15 @@ class _UserImagePickerState extends State<UserImagePicker> {
     final pickedImage = await picker.getImage(
       source: ImageSource.camera,
       preferredCameraDevice: CameraDevice.front,
+      imageQuality: 50,
+      maxWidth: 150,
     );
+    final pickedImageFile = File(pickedImage.path);
+
+    widget.onImageSelected(pickedImageFile);
 
     setState(() {
-      _pickedImageFile = File(pickedImage.path);
+      _pickedImageFile = pickedImageFile;
     });
   }
 
@@ -35,11 +44,13 @@ class _UserImagePickerState extends State<UserImagePicker> {
                   _pickedImageFile,
                 )
               : null,
-          child: Icon(
-            Icons.account_circle,
-            color: Colors.white54,
-            size: 48.0,
-          ),
+          child: _pickedImageFile == null
+              ? Icon(
+                  Icons.account_circle,
+                  color: Colors.white54,
+                  size: 48.0,
+                )
+              : null,
         ),
         Positioned(
           bottom: -5.0,

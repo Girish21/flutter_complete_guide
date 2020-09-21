@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,6 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
     @required String emailId,
     @required bool isLogin,
     @required BuildContext context,
+    @required File image,
   }) async {
     final _auth = FirebaseAuth.instance;
     AuthResult _result;
@@ -39,6 +43,15 @@ class _AuthScreenState extends State<AuthScreen> {
           password: password,
         );
 
+        final storageSnapshot = await FirebaseStorage.instance
+            .ref()
+            .child('user_images')
+            .child('${_result.user.uid}.jpg')
+            .putFile(image)
+            .onComplete;
+
+        final url = await storageSnapshot.ref.getDownloadURL();
+
         await Firestore.instance
             .collection('users')
             .document(_result.user.uid)
@@ -46,6 +59,7 @@ class _AuthScreenState extends State<AuthScreen> {
           {
             'userName': userName,
             'emailId': emailId,
+            'imageUrl': url,
           },
         );
       }
