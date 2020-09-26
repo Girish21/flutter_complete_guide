@@ -17,12 +17,7 @@ class _ChatScreeenState extends State<ChatScreeen> {
 
     var fm = FirebaseMessaging();
     fm.requestNotificationPermissions();
-    fm.configure(
-      onMessage: (message) {
-        print(message);
-        return Future.value(true);
-      },
-    );
+    fm.subscribeToTopic('chat');
   }
 
   @override
@@ -32,6 +27,7 @@ class _ChatScreeenState extends State<ChatScreeen> {
         title: Text('Flutter Chat'),
         actions: [
           DropdownButton(
+            underline: Container(),
             icon: Icon(
               Icons.more_vert,
               color: Theme.of(context).primaryIconTheme.color,
