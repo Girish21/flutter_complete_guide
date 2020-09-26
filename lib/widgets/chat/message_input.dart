@@ -21,6 +21,7 @@ class _MessageInputState extends State<MessageInput> {
         children: [
           Expanded(
             child: TextField(
+              textCapitalization: TextCapitalization.sentences,
               controller: _messageController,
               decoration: InputDecoration(
                 hintText: 'Message',

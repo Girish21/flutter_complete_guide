@@ -98,6 +98,8 @@ class _AuthFormState extends State<AuthForm> {
                       },
                     ),
                   TextFormField(
+                    autocorrect: false,
+                    textCapitalization: TextCapitalization.none,
                     key: ValueKey('email'),
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
