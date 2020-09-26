@@ -54,6 +54,7 @@ class _MessageInputState extends State<MessageInput> {
                       'createdAt': Timestamp.now(),
                       'userId': user.uid,
                       'userName': userData['userName'],
+                      'imageUrl': userData['imageUrl']
                     });
 
                     if (response != null) {

@@ -37,6 +37,7 @@ class Messages extends StatelessWidget {
                     document.documentID,
                   ),
                   userName: document['userName'],
+                  imageUrl: document['imageUrl'],
                 );
               },
             );
