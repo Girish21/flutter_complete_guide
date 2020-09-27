@@ -22,18 +22,19 @@ class ProductDetail extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _product.title,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 300,
-              width: double.infinity,
-              child: Hero(
+      // appBar: AppBar(
+      //   title: ,
+      // ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                _product.title,
+              ),
+              background: Hero(
                 tag: _product.id,
                 child: Image.network(
                   _product.imageUrl,
@@ -41,32 +42,42 @@ class ProductDetail extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 16,
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      '\$${_product.price.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      width: double.infinity,
+                      child: Text(
+                        _product.description,
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            Text(
-              '\$${_product.price.toStringAsFixed(2)}',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              width: double.infinity,
-              child: Text(
-                _product.description,
-                textAlign: TextAlign.center,
-                softWrap: true,
-              ),
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
