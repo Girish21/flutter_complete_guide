@@ -31,9 +31,12 @@ class ProductCard extends StatelessWidget {
               ),
             );
           },
-          child: Image.network(
-            _product.imageUrl,
-            fit: BoxFit.contain,
+          child: FadeInImage(
+            placeholder: AssetImage('assets/images/product-placeholder.png'),
+            image: NetworkImage(
+              _product.imageUrl,
+            ),
+            fit: BoxFit.cover,
           ),
         ),
         footer: GridTileBar(
