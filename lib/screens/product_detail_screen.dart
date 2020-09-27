@@ -33,9 +33,12 @@ class ProductDetail extends StatelessWidget {
             Container(
               height: 300,
               width: double.infinity,
-              child: Image.network(
-                _product.imageUrl,
-                fit: BoxFit.cover,
+              child: Hero(
+                tag: _product.id,
+                child: Image.network(
+                  _product.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(
